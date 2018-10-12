@@ -14,7 +14,7 @@
         android:orientation="horizontal">
 
         <EditText
-            android:id="@+id/editText4"
+            android:id="@+id/et_email"
             android:layout_width="194dp"
             android:layout_height="wrap_content"
             android:ems="10"
@@ -36,19 +36,5 @@
         android:layout_height="wrap_content"
         android:text="인증" />
 
-    <TextView
-        android:id="@+id/tv_announc"
-        android:layout_width="match_parent"
-        android:layout_height="38dp"
-        android:textSize="20dp"
-        android:text="textView"
-        android:layout_weight="0.04" />
-
-    <Button
-        android:id="@+id/btn_next"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-
-        android:text="다음" />
 
 </LinearLayout>

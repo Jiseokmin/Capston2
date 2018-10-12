@@ -1,7 +1,4 @@
 package kr.study.capston2;
-///////////////비밀번호 체크 까지 했음 이제 해야될것
-//////////////1.이메일 인증
-//////////////2.사용자 아이디 중복체크
 
 import android.content.Intent;
 import android.support.v7.app.AlertDialog;
@@ -34,8 +31,10 @@ public class RegisterActivity extends AppCompatActivity {
         final EditText passwordText2 = (EditText)findViewById(R.id.passWordText2);
         final EditText nameText = (EditText)findViewById(R.id.nameText);
         final EditText ageText = (EditText)findViewById(R.id.ageText);
+       // final String usermail;
 
-
+     //   Intent intent=new Intent(this.getIntent());
+       // usermail=intent.getStringExtra("mail");
 
 
         Button registerButton = (Button) findViewById(R.id.registerButton);
@@ -51,6 +50,8 @@ public class RegisterActivity extends AppCompatActivity {
                 int userAge = Integer.parseInt(ageText.getText().toString());
                  final String userPassword = passwordText.getText().toString();
                  final String userPassword2 = passwordText2.getText().toString();
+             //   final String userMail = usermail;
+
                   String userName = nameText.getText().toString();
 
 
@@ -61,6 +62,8 @@ public class RegisterActivity extends AppCompatActivity {
 
 
                         try {
+
+
 
                             JSONObject jsonResponse = new JSONObject(response); //특정 response를 실행 했을 때 결과 값이 담김
                             boolean  success = jsonResponse.getBoolean("success");
@@ -106,7 +109,7 @@ public class RegisterActivity extends AppCompatActivity {
                 };
 
 
-                    RegisterRequest registerRequest = new RegisterRequest(userID, userPassword, userPassword2, userName, userAge, responseListener);
+                    RegisterRequest registerRequest = new RegisterRequest(userID, userPassword, userPassword2, userName,userAge, responseListener);
                     RequestQueue queue = Volley.newRequestQueue(RegisterActivity.this);
                     queue.add(registerRequest);
 

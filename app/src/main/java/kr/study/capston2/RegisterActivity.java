@@ -46,8 +46,8 @@ public class RegisterActivity extends AppCompatActivity {
 
             @Override
             public void onClick(View view) {
-                 String userID = idText.getText().toString();
-                int userAge = Integer.parseInt(ageText.getText().toString());
+                final String userID = idText.getText().toString();
+                final int userAge = Integer.parseInt(ageText.getText().toString());
                  final String userPassword = passwordText.getText().toString();
                  final String userPassword2 = passwordText2.getText().toString();
              //   final String userMail = usermail;
@@ -60,11 +60,7 @@ public class RegisterActivity extends AppCompatActivity {
                     @Override
                     public void onResponse(String response) {
 
-
                         try {
-
-
-
                             JSONObject jsonResponse = new JSONObject(response); //특정 response를 실행 했을 때 결과 값이 담김
                             boolean  success = jsonResponse.getBoolean("success");
 

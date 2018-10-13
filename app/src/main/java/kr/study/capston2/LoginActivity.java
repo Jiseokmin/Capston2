@@ -41,8 +41,8 @@ public class LoginActivity extends AppCompatActivity {
         loginButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                final String userID  = idText.getText().toString();
-                final String userPassword  = passwordText.getText().toString();
+                String userID  = idText.getText().toString();
+                String userPassword  = passwordText.getText().toString();
 
                 Response.Listener<String> responseListener = new Response.Listener<String>() {
 
@@ -52,12 +52,13 @@ public class LoginActivity extends AppCompatActivity {
                             JSONObject jsonResponse = new JSONObject(response);
                             boolean success  = jsonResponse.getBoolean("success");
                             if(success) {
-                                String userID = jsonResponse.getString("userID");
-                                String userPassword = jsonResponse.getString("userPassword");
+                              //  String userID = jsonResponse.getString("userID");
+                               //String userPassword = jsonResponse.getString("userPassword");
                                 Intent intent  = new Intent(LoginActivity.this,MainActivity.class);
-                                intent.putExtra("userID",userID);
-                                intent.putExtra("userPassword",userPassword);
+                              //  intent.putExtra("userID",userID);
+                             //  intent.putExtra("userPassword",userPassword);
                                 LoginActivity.this.startActivity(intent);
+                                finish();
 
                             }
                             else {
@@ -81,4 +82,5 @@ public class LoginActivity extends AppCompatActivity {
         });
 
     }
+
 }

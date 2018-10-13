@@ -14,16 +14,16 @@ public class MainActivity extends AppCompatActivity {
         setContentView(R.layout.activity_main);
 
         TextView idText = (TextView)findViewById(R.id.idText);
-        TextView passwordText = (TextView)findViewById(R.id.passwordText);
+        //TextView passwordText = (TextView)findViewById(R.id.passwordText);
         TextView welcomMessage =(TextView) findViewById(R.id.welcomeMessage);
 
         Intent intent = getIntent();
-        String userID = intent.getStringExtra("userID");
-        String userPassword = intent.getStringExtra("userPassword");
-        String message = "환영합니다, "+ userID + "님!";
+       // String userID = intent.getStringExtra("userID");
+      //  String userPassword = intent.getStringExtra("userPassword");
+        String message = "환영합니다";
 
-        idText.setText(userID);
-        passwordText.setText(userPassword);
+     //   idText.setText(userID);
+      //  passwordText.setText(userPassword);
         welcomMessage.setText(message);
     }
 }

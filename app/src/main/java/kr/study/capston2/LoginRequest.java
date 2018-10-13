@@ -9,7 +9,7 @@ import java.util.Map;
 /**
  * Created by JI on 2018-10-09.
  */
-
+////////////////LoginActivity 와 서버 연동하는 엑티비티
 public class LoginRequest extends StringRequest {
 
     final static private String URL = "http://wltjrals45.cafe24.com/Login.php";

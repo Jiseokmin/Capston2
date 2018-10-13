@@ -16,7 +16,7 @@ import com.android.volley.toolbox.Volley;
 
 import org.json.JSONException;
 import org.json.JSONObject;
-
+///////////////////////회원 가입 엑티비티
 public class RegisterActivity extends AppCompatActivity {
     boolean add ;         //회원가입 정보를 db에 추가할지 말지 정하는 변수
     @Override
@@ -31,18 +31,15 @@ public class RegisterActivity extends AppCompatActivity {
         final EditText passwordText2 = (EditText)findViewById(R.id.passWordText2);
         final EditText nameText = (EditText)findViewById(R.id.nameText);
         final EditText ageText = (EditText)findViewById(R.id.ageText);
-       // final String usermail;
+        final String usermail;
 
-     //   Intent intent=new Intent(this.getIntent());
-       // usermail=intent.getStringExtra("mail");
+        Intent intent=new Intent(this.getIntent());
+        usermail=intent.getStringExtra("mail");    //// 넘어온 메일아이디 받기
 
 
         Button registerButton = (Button) findViewById(R.id.registerButton);
 
         registerButton.setOnClickListener(new View.OnClickListener() {
-
-
-
 
             @Override
             public void onClick(View view) {
@@ -50,7 +47,7 @@ public class RegisterActivity extends AppCompatActivity {
                 final int userAge = Integer.parseInt(ageText.getText().toString());
                  final String userPassword = passwordText.getText().toString();
                  final String userPassword2 = passwordText2.getText().toString();
-             //   final String userMail = usermail;
+                final String userMail = usermail;
 
                   String userName = nameText.getText().toString();
 
@@ -63,13 +60,14 @@ public class RegisterActivity extends AppCompatActivity {
                         try {
                             JSONObject jsonResponse = new JSONObject(response); //특정 response를 실행 했을 때 결과 값이 담김
                             boolean  success = jsonResponse.getBoolean("success");
+                            boolean  duplicate = jsonResponse.getBoolean("duplicate");
 
 
                             if(!userPassword.equals(userPassword2)) {
                                 success = false;
                             }
 
-                            if (success) {
+                            if (success && duplicate) {
 
                                 AlertDialog.Builder builder = new AlertDialog.Builder(RegisterActivity.this);  //성공 할 경우 알람 뜨게함
                                 builder.setMessage("회원 등록에 성공했습니다")
@@ -82,15 +80,15 @@ public class RegisterActivity extends AppCompatActivity {
                             }
                             else {
 
-                                if (!userPassword.equals(userPassword2)) {
+                                if (!userPassword.equals(userPassword2)) {      //비밀번호 일치하지 않는 경우
                                     AlertDialog.Builder builder = new AlertDialog.Builder(RegisterActivity.this);
                                     builder.setMessage("비밀번호가 일치하지 않습니다!")
                                             .setNegativeButton("다시 시도", null)
                                             .create().show();
 
-                                } else {
+                                } else if(!duplicate){      //아이디가 중복되는경우
                                     AlertDialog.Builder builder = new AlertDialog.Builder(RegisterActivity.this);
-                                    builder.setMessage("회원 등록에 실패했습니다")
+                                    builder.setMessage("존재하는 아이디입니다!")
                                             .setNegativeButton("다시 시도", null)
                                             .create().show();
                                 }
@@ -105,7 +103,7 @@ public class RegisterActivity extends AppCompatActivity {
                 };
 
 
-                    RegisterRequest registerRequest = new RegisterRequest(userID, userPassword, userPassword2, userName,userAge, responseListener);
+                    RegisterRequest registerRequest = new RegisterRequest(userID, userPassword, userPassword2,userName,userMail,userAge, responseListener);
                     RequestQueue queue = Volley.newRequestQueue(RegisterActivity.this);
                     queue.add(registerRequest);
 

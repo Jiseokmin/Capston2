@@ -25,7 +25,7 @@ import javax.mail.util.ByteArrayDataSource;
 /**
  * Created by JI on 2018-10-12.
  */
-
+///////////////////////////////////메일 보내기 위한 api////////////////////////////////////
 public class GMailSender extends javax.mail.Authenticator {
     private String mailhost = "smtp.gmail.com";
     private String user;

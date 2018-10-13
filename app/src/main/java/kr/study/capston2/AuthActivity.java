@@ -12,15 +12,15 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.TextView;
 import android.widget.Toast;
-
+/////////////////////이메일 인증 activity //// 메일에 랜덤한 문자열을 보내면 3분안에 인증을 해야됨
 public class AuthActivity extends AppCompatActivity {
 
     String ran_num;
     String mailid;
 
     private int count = 180;
-    private static final int MILLISINFUTURE = 180 * 1000;
-    private static final int COUNT_DOWN_INTERVAL = 1000;
+    private static final int MILLISINFUTURE = 180 * 1000;       //3분 !!
+    private static final int COUNT_DOWN_INTERVAL = 1000;        // 1초에 1씩 줄어듦
     private CountDownTimer countDownTimer;
     private TextView countTxt;
 
@@ -51,7 +51,7 @@ public class AuthActivity extends AppCompatActivity {
                 if (num.equals(ran_num)) {
 
                     Intent intent = new Intent(AuthActivity.this, RegisterActivity.class);
-                    //intent.putExtra("mail",mailid);
+                    intent.putExtra("mail",mailid); //RegisterActivity 로 이메일 보냄
 
                     startActivity(intent);
                     finish();
@@ -99,5 +99,3 @@ public class AuthActivity extends AppCompatActivity {
     }
 
 }
-////////////////////해야될거
-////////////////////회원가입 할 때 아이디 중복 등 예외처리

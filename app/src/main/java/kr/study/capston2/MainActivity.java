@@ -27,3 +27,6 @@ public class MainActivity extends AppCompatActivity {
         welcomMessage.setText(message);
     }
 }
+///////////////////해야 될거
+////////////////// 자동 로그인 기능
+///////////////// 이메일도 db 추가하자!!!!!!!!!!!

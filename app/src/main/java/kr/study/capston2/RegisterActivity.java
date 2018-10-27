@@ -7,6 +7,8 @@ import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.RadioButton;
+import android.widget.RadioGroup;
 import android.widget.Toast;
 
 import com.android.volley.Request;
@@ -19,6 +21,8 @@ import org.json.JSONObject;
 ///////////////////////회원 가입 엑티비티
 public class RegisterActivity extends AppCompatActivity {
     boolean add ;         //회원가입 정보를 db에 추가할지 말지 정하는 변수
+
+    private String userGender;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -31,7 +35,23 @@ public class RegisterActivity extends AppCompatActivity {
         final EditText passwordText2 = (EditText)findViewById(R.id.passWordText2);
         final EditText nameText = (EditText)findViewById(R.id.nameText);
         final EditText ageText = (EditText)findViewById(R.id.ageText);
+
         final String usermail;
+
+      final   RadioGroup genderGroup = (RadioGroup)findViewById(R.id.genderGroup);
+        int genderGroupID = genderGroup.getCheckedRadioButtonId();
+       userGender = ((RadioButton)findViewById(genderGroupID)).getText().toString();
+
+        genderGroup.setOnCheckedChangeListener(new RadioGroup.OnCheckedChangeListener() {
+
+        @Override
+            public void onCheckedChanged(RadioGroup radioGroup, int i) {
+                    RadioButton genderButton = (RadioButton)findViewById(i);
+                    userGender = genderButton.getText().toString();
+
+        }
+        });
+
 
         Intent intent=new Intent(this.getIntent());
         usermail=intent.getStringExtra("mail");    //// 넘어온 메일아이디 받기
@@ -48,6 +68,8 @@ public class RegisterActivity extends AppCompatActivity {
                  final String userPassword = passwordText.getText().toString();
                  final String userPassword2 = passwordText2.getText().toString();
                 final String userMail = usermail;
+
+
 
                   String userName = nameText.getText().toString();
 
@@ -103,11 +125,13 @@ public class RegisterActivity extends AppCompatActivity {
                 };
 
 
-                    RegisterRequest registerRequest = new RegisterRequest(userID, userPassword, userPassword2,userName,userMail,userAge, responseListener);
+                    RegisterRequest registerRequest = new RegisterRequest(userID, userPassword, userPassword2,userName,userMail,userAge,userGender, responseListener);
                     RequestQueue queue = Volley.newRequestQueue(RegisterActivity.this);
                     queue.add(registerRequest);
 
             }
         });
     }
+
 }
+///Db에 gender 추가 , onstop 부분 작성

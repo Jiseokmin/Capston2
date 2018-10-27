@@ -12,18 +12,22 @@
         android:layout_width="351dp"
         android:layout_height="51dp"
         android:ems="10"
-        android:hint="아이디"
+
         android:inputType="textPersonName"
         tools:layout_editor_absoluteX="16dp"
-        tools:layout_editor_absoluteY="8dp" />
+        tools:layout_editor_absoluteY="8dp"
+        android:drawableStart="@drawable/ic_person_black_24dp"
+        android:drawableLeft="@drawable/ic_person_black_24dp"/>
 
     <EditText
         android:id="@+id/passwordText"
         android:layout_width="349dp"
         android:layout_height="41dp"
         android:ems="10"
-        android:hint="비밀번호"
+
         android:inputType="textPassword"
+        android:drawableStart="@drawable/ic_lock_black_24dp"
+        android:drawableLeft="@drawable/ic_lock_black_24dp"
         tools:layout_editor_absoluteX="16dp"
         tools:layout_editor_absoluteY="70dp" />
 

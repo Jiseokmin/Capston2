@@ -46,6 +46,35 @@
         android:ems="10"
         android:hint="나이"
         android:inputType="textPersonName" />
+    
+    <RadioGroup
+        android:layout_width="280dp"
+        android:layout_height="wrap_content"
+        android:id="@+id/genderGroup"
+        android:layout_gravity="center_horizontal"
+        android:orientation="horizontal"
+        android:layout_marginTop="10dp"
+        >
+
+        <RadioButton
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:text="여자"
+            android:id="@+id/genderWoman"
+            android:layout_weight="1"
+            android:checked="true" />
+
+        <RadioButton
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:text="남자"
+            android:id="@+id/genderMan"
+            android:layout_weight="1"
+             />
+
+
+
+    </RadioGroup>
 
     <Button
         android:id="@+id/registerButton"

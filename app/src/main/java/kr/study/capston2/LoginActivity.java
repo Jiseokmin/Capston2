@@ -63,7 +63,7 @@ public class LoginActivity extends AppCompatActivity {
                             }
                             else {
                                 AlertDialog.Builder builder = new AlertDialog.Builder(LoginActivity.this);
-                                builder.setMessage("로그인 실패")
+                                builder.setMessage("아이디 또는 비밀번호가 일치하지 않습니다!")
                                         .setNegativeButton("다시 시도",null)
                                         .create()
                                         .show();

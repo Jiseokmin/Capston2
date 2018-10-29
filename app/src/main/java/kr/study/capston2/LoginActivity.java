@@ -52,13 +52,14 @@ public class LoginActivity extends AppCompatActivity {
                             JSONObject jsonResponse = new JSONObject(response);
                             boolean success  = jsonResponse.getBoolean("success");
                             if(success) {
-                              //  String userID = jsonResponse.getString("userID");
+                                String userID = jsonResponse.getString("userID");
                                //String userPassword = jsonResponse.getString("userPassword");
                                 Intent intent  = new Intent(LoginActivity.this,MainActivity.class);
-                              //  intent.putExtra("userID",userID);
+                                intent.putExtra("userID",userID);
                              //  intent.putExtra("userPassword",userPassword);
                                 LoginActivity.this.startActivity(intent);
                                 finish();
+
 
                             }
                             else {

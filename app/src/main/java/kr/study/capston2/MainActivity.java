@@ -3,29 +3,40 @@ package kr.study.capston2;
 import android.content.Intent;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.view.View;
 import android.widget.EditText;
+import android.widget.ImageButton;
 import android.widget.TextView;
 
 public class MainActivity extends AppCompatActivity {
-
+    String userID;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
-        TextView idText = (TextView)findViewById(R.id.idText);
-        //TextView passwordText = (TextView)findViewById(R.id.passwordText);
-        TextView welcomMessage =(TextView) findViewById(R.id.welcomeMessage);
+        ImageButton imagebtn_chicken = (ImageButton) findViewById(R.id.chicken);
+
 
         Intent intent = getIntent();
-       // String userID = intent.getStringExtra("userID");
-      //  String userPassword = intent.getStringExtra("userPassword");
-        String message = "환영합니다";
+        userID  = intent.getStringExtra("userID");
 
-     //   idText.setText(userID);
-      //  passwordText.setText(userPassword);
-        welcomMessage.setText(message);
+        imagebtn_chicken.setOnClickListener(new View.OnClickListener() {
+
+            @Override
+            public void onClick(View arg0) {
+
+                Intent intent  = new Intent(MainActivity.this,ChickenActivity.class);
+
+
+                intent.putExtra("userID",userID);
+
+                MainActivity.this.startActivity(intent);
+                finish();
+            }
+        });
     }
-}
-///////////////////해야 될거
-////////////////// 자동 로그인 기능
+
+
+    }
+

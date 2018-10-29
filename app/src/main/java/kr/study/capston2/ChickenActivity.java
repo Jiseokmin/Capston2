@@ -48,7 +48,7 @@ public class ChickenActivity extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setTitle("랜덤채팅 APP");
+        setTitle("치킨 채팅방");
         setContentView(R.layout.activity_chicken);
 
         //로그인화면에서 닉네임을 가져옵니다.

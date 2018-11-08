@@ -15,12 +15,15 @@ import com.android.volley.Request;
 import com.android.volley.RequestQueue;
 import com.android.volley.Response;
 import com.android.volley.toolbox.Volley;
+import com.google.firebase.database.DatabaseReference;
+import com.google.firebase.database.FirebaseDatabase;
 
 import org.json.JSONException;
 import org.json.JSONObject;
 ///////////////////////회원 가입 엑티비티
 public class RegisterActivity extends AppCompatActivity {
     boolean add ;         //회원가입 정보를 db에 추가할지 말지 정하는 변수
+    private DatabaseReference mDatabase;
 
     private String userGender;
     @Override
@@ -29,6 +32,7 @@ public class RegisterActivity extends AppCompatActivity {
         setTitle("회원 가입");
         setContentView(R.layout.activity_register);
 
+        mDatabase = FirebaseDatabase.getInstance().getReference();
 
         final EditText idText = (EditText)findViewById(R.id.idText);
         final EditText passwordText = (EditText)findViewById(R.id.passWordText);
@@ -124,7 +128,7 @@ public class RegisterActivity extends AppCompatActivity {
 
                 };
 
-
+                    writeNewUser(userID,"15");    //Firebase DB에 userID 와 point 저장
                     RegisterRequest registerRequest = new RegisterRequest(userID, userPassword, userPassword2,userName,userMail,userAge,userGender, responseListener);
                     RequestQueue queue = Volley.newRequestQueue(RegisterActivity.this);
                     queue.add(registerRequest);
@@ -132,6 +136,10 @@ public class RegisterActivity extends AppCompatActivity {
             }
         });
     }
+    private void writeNewUser(String userId, String point) {
+        User user = new User(point);
 
+        mDatabase.child("users").child(userId).setValue(user);
+    }
 }
-///Db에 gender 추가 , onstop 부분 작성
+

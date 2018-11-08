@@ -2,6 +2,7 @@ package kr.study.capston2;
 
 import android.content.DialogInterface;
 import android.content.Intent;
+import android.support.v7.app.ActionBarDrawerToggle;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
@@ -35,13 +36,14 @@ public class ChickenActivity extends AppCompatActivity {
 
     private ArrayAdapter<String> arrayAdapter;
     private ArrayList<String> arr_roomList = new ArrayList<>();
-    private DatabaseReference reference = FirebaseDatabase.getInstance()
-            .getReference().getRoot();
+    private DatabaseReference reference;    //chicken 이라는 공간 생성 -> 이 안에서 채팅방 생성
     private String name;
 
     private String userID;
+    private String what;
     //private String str_name;
     private String str_room;
+    private EditText editSearch;        // 검색어를 입력할 Input 창
 
     Map<String, Object> map = new HashMap<String, Object>();
 
@@ -54,7 +56,10 @@ public class ChickenActivity extends AppCompatActivity {
         //로그인화면에서 닉네임을 가져옵니다.
         Intent intent = getIntent();   //Login 에서 Main,, Main에서 Chicken 으로 userID를 받아옴
         userID  = intent.getStringExtra("userID");
-        //str_name = intent.getStringExtra("name");
+        what  = intent.getStringExtra("what");
+
+        reference = FirebaseDatabase.getInstance()
+                .getReference().child(what).getRef();
 
         listView = (ListView) findViewById(R.id.list);
         btn_create = (Button) findViewById(R.id.btn_create);
@@ -125,8 +130,10 @@ public class ChickenActivity extends AppCompatActivity {
                 Intent intent = new Intent(getApplicationContext(), ChickenChatActivity.class);
                 intent.putExtra("room_name", ((TextView) view).getText().toString());
                 intent.putExtra("user_name", userID);
+                intent.putExtra("what",what);
                 startActivity(intent);
             }
         });
+
     }
 }

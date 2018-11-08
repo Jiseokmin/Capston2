@@ -7,10 +7,21 @@
     android:orientation="vertical"
     tools:context="kr.study.capston2.LoginActivity">
 
+    <ImageView
+        android:layout_width="150dp"
+        android:layout_height="150dp"
+        android:layout_gravity="center"
+        android:layout_margin="20dp"
+        android:src="@drawable/loginlogo2"/>
+
+
     <EditText
         android:id="@+id/idText"
-        android:layout_width="351dp"
+        android:layout_width="301dp"
         android:layout_height="51dp"
+        android:layout_gravity="center"
+        android:layout_marginLeft="40dp"
+        android:layout_marginRight="40dp"
         android:ems="10"
 
         android:inputType="textPersonName"
@@ -21,8 +32,11 @@
 
     <EditText
         android:id="@+id/passwordText"
-        android:layout_width="349dp"
+        android:layout_width="301dp"
         android:layout_height="41dp"
+        android:layout_gravity="center"
+        android:layout_marginLeft="40dp"
+        android:layout_marginRight="40dp"
         android:ems="10"
 
         android:inputType="textPassword"
@@ -33,17 +47,28 @@
 
     <Button
         android:id="@+id/loginButtion"
-        android:layout_width="348dp"
+        android:layout_width="301dp"
         android:layout_height="49dp"
+        android:layout_gravity="center"
+        android:layout_marginLeft="40dp"
+        android:layout_marginRight="40dp"
         android:text="로그인"
+        android:textSize="18dp"
+        android:textColor="#ffffff"
+        android:background="#0368f5"
+        android:textStyle="bold"
         tools:layout_editor_absoluteX="16dp"
         tools:layout_editor_absoluteY="128dp" />
 
     <TextView
         android:id="@+id/registerButton"
-        android:layout_width="54dp"
+        android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginLeft="160dp"
+        android:layout_gravity="center"
+        android:layout_marginTop="15dp"
         android:text="회원가입"
+        android:textSize="20dp"
+        android:textStyle="bold"
+        android:textColor="#000000"
         android:textAppearance="@style/TextAppearance.AppCompat.Button" />
 </LinearLayout>

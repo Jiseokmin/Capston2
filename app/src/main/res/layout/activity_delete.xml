@@ -1,0 +1,62 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<FrameLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical">
+
+    <android.support.v7.widget.Toolbar
+        android:id="@+id/toolbar"
+        android:layout_width="match_parent"
+        android:layout_height="?attr/actionBarSize"
+        android:background="#0368f5"
+        android:theme="@style/ThemeOverlay.AppCompat.Dark" />
+
+<LinearLayout
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical">
+    <TextView
+        android:layout_width="355dp"
+        android:layout_height="wrap_content"
+        android:textSize="17dp"
+        android:text="본인 확인을 위해 비밀번호를 한 번 더 입력해주세요"
+        android:layout_marginTop="130dp"
+        android:layout_gravity="center_horizontal"
+        />
+
+    <EditText
+        android:layout_width="355dp"
+        android:layout_height="33dp"
+        android:layout_marginTop="20dp"
+        android:paddingLeft="10dp"
+        android:hint="비밀번호"
+        android:background="@drawable/border"
+        android:layout_gravity="center_horizontal"
+        />
+
+</LinearLayout>
+
+<LinearLayout
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:orientation="vertical"
+    android:layout_gravity="bottom"
+   >
+
+    <Button
+        android:id="@+id/btn_delete"
+        android:text="탈퇴하기"
+        android:textSize="18dp"
+        android:textColor="#ffffff"
+        android:background="#0368f5"
+        android:layout_width="match_parent"
+        android:layout_height="50dp"
+
+        />
+
+</LinearLayout>
+</FrameLayout>
+

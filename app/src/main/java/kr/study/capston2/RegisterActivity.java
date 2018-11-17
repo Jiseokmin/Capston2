@@ -103,6 +103,7 @@ public class RegisterActivity extends AppCompatActivity {
                                 Intent intent = new Intent(RegisterActivity.this, LoginActivity.class); //회원 가입 성공 할 경우 로그인 액티비티로 이동
                                 RegisterActivity.this.startActivity(intent);
                                 add = true;
+                                finish();
                             }
                             else {
 

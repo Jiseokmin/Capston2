@@ -80,33 +80,42 @@ public class MainActivity extends AppCompatActivity {
         final Intent intent = getIntent();
         userID  = intent.getStringExtra("userID");
 
+
         txt_id.setText(userID);
 
         infor_list.add("로그아웃");
+        infor_list.add("회원탈퇴");
         adapter=new ArrayAdapter<String>(this,R.layout.simpleitem,infor_list);
         userlist.setAdapter(adapter);
 
         final DatabaseReference reference_warnRef = FirebaseDatabase.getInstance().getReference().child("users").child(userID).child("point");
 
-        userlist.setOnItemClickListener(new AdapterView.OnItemClickListener() {                         //로그아웃
+        userlist.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(final AdapterView parent, View v, final int position, long id) {
-                final String selected_item = (String)parent.getItemAtPosition(1);
+                if(position == 1) { //로그아웃
+                    Intent intent = new Intent(MainActivity.this, LoginActivity.class);
+                    startActivity(intent);
+                    SharedPreferences auto = getSharedPreferences("auto", Activity.MODE_PRIVATE);
+                    SharedPreferences.Editor editor = auto.edit();
+                    //editor.clear()는 auto에 들어있는 모든 정보를 기기에서 지웁니다.
+                    editor.clear();
+                    editor.commit();
+                    finish();
+                }
 
-                Intent intent = new Intent(MainActivity.this, LoginActivity.class);
-                startActivity(intent);
-                SharedPreferences auto = getSharedPreferences("auto", Activity.MODE_PRIVATE);
-                SharedPreferences.Editor editor = auto.edit();
-                //editor.clear()는 auto에 들어있는 모든 정보를 기기에서 지웁니다.
-                editor.clear();
-                editor.commit();
-                finish();
+                if(position == 2) {     //회원탈퇴
+                    Intent intent = new Intent(MainActivity.this, DeleteActivity.class);
+                    intent.putExtra("userID", userID);
+                    startActivity(intent);
+                    finish();
 
+                }
 
             }
         });
 
-        reference_warnRef.addValueEventListener(new ValueEventListener() {
+        reference_warnRef.addListenerForSingleValueEvent(new ValueEventListener() {
             @Override
             public void onDataChange(DataSnapshot dataSnapshot) {
                 Map<String, Object> taskMap = new HashMap<String, Object>();
@@ -130,7 +139,7 @@ public class MainActivity extends AppCompatActivity {
                         }
                         else {
                             new AlertDialog.Builder(MainActivity.this)
-                            .setTitle("약속 장소에 안나가셨나요?")
+                                    .setTitle("약속 장소에 안나가셨나요?")
                                     .setMessage("여러 명과의 약속을 어겨 '천하제일 파토대회' 만 이용가능합니다.")
                                     .setNegativeButton("돌아가기",
                                             new DialogInterface.OnClickListener() {
@@ -140,7 +149,7 @@ public class MainActivity extends AppCompatActivity {
                                                 }
                                             })
 
-                           .show();
+                                    .show();
                         }
 
 
@@ -299,15 +308,15 @@ public class MainActivity extends AppCompatActivity {
             @Override
             public void onClick(View arg0) {
 
-                    Intent intent = new Intent(MainActivity.this, ChickenActivity.class);
-                    what = "failer";
+                Intent intent = new Intent(MainActivity.this, ChickenActivity.class);
+                what = "failer";
 
 
-                    intent.putExtra("userID", userID);
-                    intent.putExtra("what", what);
+                intent.putExtra("userID", userID);
+                intent.putExtra("what", what);
 
-                    MainActivity.this.startActivity(intent);
-                }
+                MainActivity.this.startActivity(intent);
+            }
         });
 
     }
@@ -363,7 +372,7 @@ public class MainActivity extends AppCompatActivity {
 
     }
 
-    }
+}
 
 //푸쉬 알림
 //개인정보 추가(회원탈퇴 등)

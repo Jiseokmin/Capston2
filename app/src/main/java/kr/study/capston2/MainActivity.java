@@ -1,45 +1,315 @@
 package kr.study.capston2;
 
+import android.app.Activity;
+import android.app.AlarmManager;
+import android.app.AlertDialog;
+import android.app.PendingIntent;
+import android.content.DialogInterface;
 import android.content.Intent;
+import android.content.SharedPreferences;
+import android.support.v4.widget.DrawerLayout;
+import android.support.v7.app.ActionBar;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.support.v7.widget.Toolbar;
 import android.util.Log;
+import android.view.Gravity;
+import android.view.Menu;
+import android.view.MenuItem;
 import android.view.View;
+import android.widget.AdapterView;
+import android.widget.ArrayAdapter;
 import android.widget.EditText;
 import android.widget.ImageButton;
+import android.widget.ListView;
 import android.widget.TextView;
+import android.widget.Toast;
+
+import com.google.firebase.database.DataSnapshot;
+import com.google.firebase.database.DatabaseError;
+import com.google.firebase.database.DatabaseReference;
+import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.database.ValueEventListener;
+
+import java.text.SimpleDateFormat;
+import java.util.ArrayList;
+import java.util.Calendar;
+import java.util.Date;
+import java.util.HashMap;
+import java.util.Map;
 
 public class MainActivity extends AppCompatActivity {
     String userID;
     String what;
+
+    private TextView txt_id;
+    private ListView userlist;  //개인정보를 나타내기 위한 listview
+    private ArrayAdapter<String> adapter;
+    private ArrayList<String> infor_list = new ArrayList<>();
     private static final String TAG = "MainActivity";
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
-        ImageButton imagebtn_chicken = (ImageButton) findViewById(R.id.chicken);
+        registerAlarm();
+
+        Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
+        setSupportActionBar(toolbar);
+        ActionBar actionBar = getSupportActionBar();
+        actionBar.setDisplayHomeAsUpEnabled(false);
+        getSupportActionBar().setDisplayShowTitleEnabled(false);
 
 
-        Intent intent = getIntent();
+        final ImageButton imagebtn_chicken = (ImageButton) findViewById(R.id.chicken);
+        final ImageButton imagebtn_soju = (ImageButton) findViewById(R.id.soju);
+        final ImageButton imagebtn_mic = (ImageButton) findViewById(R.id.mic);
+
+        final ImageButton imagebtn_basketball = (ImageButton) findViewById(R.id.basketball);
+        final ImageButton imagebtn_study = (ImageButton) findViewById(R.id.study);
+        final ImageButton imagebtn_failer = (ImageButton) findViewById(R.id.failer);
+
+        userlist=(ListView)findViewById(R.id.main_drawer);
+        final View header = getLayoutInflater().inflate(R.layout.main_listview_header, null, false) ;
+        userlist.addHeaderView(header) ;
+
+        txt_id = (TextView) findViewById(R.id.main_title);
+
+
+
+        final Intent intent = getIntent();
         userID  = intent.getStringExtra("userID");
 
-        imagebtn_chicken.setOnClickListener(new View.OnClickListener() {
+        txt_id.setText(userID);
+
+        infor_list.add("로그아웃");
+        adapter=new ArrayAdapter<String>(this,R.layout.simpleitem,infor_list);
+        userlist.setAdapter(adapter);
+
+        final DatabaseReference reference_warnRef = FirebaseDatabase.getInstance().getReference().child("users").child(userID).child("point");
+
+        userlist.setOnItemClickListener(new AdapterView.OnItemClickListener() {                         //로그아웃
+            @Override
+            public void onItemClick(final AdapterView parent, View v, final int position, long id) {
+                final String selected_item = (String)parent.getItemAtPosition(1);
+
+                Intent intent = new Intent(MainActivity.this, LoginActivity.class);
+                startActivity(intent);
+                SharedPreferences auto = getSharedPreferences("auto", Activity.MODE_PRIVATE);
+                SharedPreferences.Editor editor = auto.edit();
+                //editor.clear()는 auto에 들어있는 모든 정보를 기기에서 지웁니다.
+                editor.clear();
+                editor.commit();
+                finish();
+
+
+            }
+        });
+
+        reference_warnRef.addValueEventListener(new ValueEventListener() {
+            @Override
+            public void onDataChange(DataSnapshot dataSnapshot) {
+                Map<String, Object> taskMap = new HashMap<String, Object>();
+                String value = dataSnapshot.getValue(String.class); //firebase 에서 DB 가져옴
+                final int point = Integer.parseInt(value);
+
+                imagebtn_chicken.setOnClickListener(new View.OnClickListener() {        //치킨 채팅방 입장
+
+                    @Override
+                    public void onClick(View arg0) {
+
+                        if(point >= 0) {
+                            Intent intent = new Intent(MainActivity.this, ChickenActivity.class);
+                            what = "chicken";
+
+
+                            intent.putExtra("userID", userID);
+                            intent.putExtra("what", what);
+
+                            MainActivity.this.startActivity(intent);
+                        }
+                        else {
+                            new AlertDialog.Builder(MainActivity.this)
+                            .setTitle("약속 장소에 안나가셨나요?")
+                                    .setMessage("여러 명과의 약속을 어겨 '천하제일 파토대회' 만 이용가능합니다.")
+                                    .setNegativeButton("돌아가기",
+                                            new DialogInterface.OnClickListener() {
+                                                public void onClick(
+                                                        DialogInterface dialog, int id) {
+                                                    dialog.cancel();
+                                                }
+                                            })
+
+                           .show();
+                        }
+
+
+                    }
+                });
+
+                imagebtn_soju.setOnClickListener(new View.OnClickListener() {        //소주 채팅방 입장
+
+                    @Override
+                    public void onClick(View arg0) {
+
+                        if(point >= 0) {
+                            Intent intent = new Intent(MainActivity.this, ChickenActivity.class);
+                            what = "soju";
+
+
+                            intent.putExtra("userID", userID);
+                            intent.putExtra("what", what);
+
+                            MainActivity.this.startActivity(intent);
+                        }
+                        else {
+                            new AlertDialog.Builder(MainActivity.this)
+                                    .setTitle("약속 장소에 안나가셨나요?")
+                                    .setMessage("여러 명과의 약속을 어겨 '천하제일 파토대회' 만 이용가능합니다.")
+                                    .setNegativeButton("돌아가기",
+                                            new DialogInterface.OnClickListener() {
+                                                public void onClick(
+                                                        DialogInterface dialog, int id) {
+                                                    dialog.cancel();
+                                                }
+                                            })
+
+                                    .show();
+                        }
+
+
+                    }
+                });
+
+                imagebtn_mic.setOnClickListener(new View.OnClickListener() {        //노래방 채팅방 입장
+
+                    @Override
+                    public void onClick(View arg0) {
+
+                        if(point >= 0) {
+                            Intent intent = new Intent(MainActivity.this, ChickenActivity.class);
+                            what = "mic";
+
+
+                            intent.putExtra("userID", userID);
+                            intent.putExtra("what", what);
+
+                            MainActivity.this.startActivity(intent);
+                        }
+                        else {
+                            new AlertDialog.Builder(MainActivity.this)
+                                    .setTitle("약속 장소에 안나가셨나요?")
+                                    .setMessage("여러 명과의 약속을 어겨 '천하제일 파토대회' 만 이용가능합니다.")
+                                    .setNegativeButton("돌아가기",
+                                            new DialogInterface.OnClickListener() {
+                                                public void onClick(
+                                                        DialogInterface dialog, int id) {
+                                                    dialog.cancel();
+                                                }
+                                            })
+
+                                    .show();
+                        }
+
+
+                    }
+                });
+
+                imagebtn_basketball.setOnClickListener(new View.OnClickListener() {        //농구 채팅방 입장
+
+                    @Override
+                    public void onClick(View arg0) {
+
+                        if(point >= 0) {
+                            Intent intent = new Intent(MainActivity.this, ChickenActivity.class);
+                            what = "basketball";
+
+
+                            intent.putExtra("userID", userID);
+                            intent.putExtra("what", what);
+
+                            MainActivity.this.startActivity(intent);
+                        }
+                        else {
+                            new AlertDialog.Builder(MainActivity.this)
+                                    .setTitle("약속 장소에 안나가셨나요?")
+                                    .setMessage("여러 명과의 약속을 어겨 '천하제일 파토대회' 만 이용가능합니다.")
+                                    .setNegativeButton("돌아가기",
+                                            new DialogInterface.OnClickListener() {
+                                                public void onClick(
+                                                        DialogInterface dialog, int id) {
+                                                    dialog.cancel();
+                                                }
+                                            })
+
+                                    .show();
+                        }
+
+
+                    }
+                });
+
+                imagebtn_study.setOnClickListener(new View.OnClickListener() {        //스터디 채팅방 입장
+
+                    @Override
+                    public void onClick(View arg0) {
+
+                        if(point >= 0) {
+                            Intent intent = new Intent(MainActivity.this, ChickenActivity.class);
+                            what = "study";
+
+
+                            intent.putExtra("userID", userID);
+                            intent.putExtra("what", what);
+
+                            MainActivity.this.startActivity(intent);
+                        }
+                        else {
+                            new AlertDialog.Builder(MainActivity.this)
+                                    .setTitle("약속 장소에 안나가셨나요?")
+                                    .setMessage("여러 명과의 약속을 어겨 '천하제일 파토대회' 만 이용가능합니다.")
+                                    .setNegativeButton("돌아가기",
+                                            new DialogInterface.OnClickListener() {
+                                                public void onClick(
+                                                        DialogInterface dialog, int id) {
+                                                    dialog.cancel();
+                                                }
+                                            })
+
+                                    .show();
+                        }
+
+
+                    }
+                });
+
+
+            }
+
+            @Override
+            public void onCancelled(DatabaseError error) {
+                // Failed to read value
+                Log.w(TAG, "Failed to read value.", error.toException());
+            }
+        });
+
+
+        imagebtn_failer.setOnClickListener(new View.OnClickListener() {        //파토방 채팅방 입장
 
             @Override
             public void onClick(View arg0) {
 
-                Intent intent  = new Intent(MainActivity.this,ChickenActivity.class);
-                what = "chicken";
+                    Intent intent = new Intent(MainActivity.this, ChickenActivity.class);
+                    what = "failer";
 
 
-                intent.putExtra("userID",userID);
-                intent.putExtra("what",what);
+                    intent.putExtra("userID", userID);
+                    intent.putExtra("what", what);
 
-                MainActivity.this.startActivity(intent);
-
-            }
+                    MainActivity.this.startActivity(intent);
+                }
         });
+
     }
     @Override
     protected void onStop() {
@@ -47,13 +317,53 @@ public class MainActivity extends AppCompatActivity {
         Log.i(TAG,"onStop");
     }
 
+    //액션버튼 메뉴 액션바에 집어 넣기
+    @Override
+    public boolean onCreateOptionsMenu(Menu menu) {
+        getMenuInflater().inflate(R.menu.person, menu);
+        return true;
     }
 
-//point가 -가 되면 채팅방에 입장 못하도록 하기
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item){
+        DrawerLayout drawer = (DrawerLayout) findViewById(R.id.main_drawer_layout) ;
+        //각각의 버튼을 클릭할때의 수행할것을 정의해 준다.
+        switch (item.getItemId()){
+            case R.id.person_navigation_drawer:    //drawer 오른쪽으로 펼치기
+
+                if (!drawer.isDrawerOpen(Gravity.RIGHT)) {
+                    drawer.openDrawer(Gravity.RIGHT) ;
+                }
+
+        }
+
+        return true;
+    }
+
+    public void registerAlarm()
+    {
+        Log.e("###", "registerAlarm");
+
+        Intent intent = new Intent(this, AlarmService.class);
+        PendingIntent sender = PendingIntent.getBroadcast(this, 0, intent, 0);
+        AlarmManager am = (AlarmManager) getSystemService(ALARM_SERVICE);
+        Calendar calendar = Calendar.getInstance();
+
+        if (calendar.get(Calendar.HOUR_OF_DAY) >= 10) {     //아침 10시 마다 실행
+
+            calendar.add(Calendar.DATE, 1);
+        }
+
+        calendar.set(Calendar.HOUR_OF_DAY, 10);
+        calendar.set(Calendar.MINUTE, 0);
+        calendar.set(Calendar.SECOND, 0);
+
+        am.set(AlarmManager.RTC, calendar.getTimeInMillis(), sender);
+
+
+    }
+
+    }
+
 //푸쉬 알림
-//자동로그인
-//개인정보 (로그아웃, 기본적인 정보)
-//치킨 말고 다른 채티방 추가
-//포인트 마이너스 된 사람들은 '이구역의파토왕은나야!' 방으로
-
-
+//개인정보 추가(회원탈퇴 등)

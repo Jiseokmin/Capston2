@@ -7,24 +7,12 @@
     android:layout_height="match_parent"
     android:orientation="vertical">
 
-    <TextView
+    <android.support.v7.widget.Toolbar
+        android:id="@+id/toolbar"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:text="채팅방 LIST"
-        android:gravity="center"
-        android:textSize="15sp"
-        android:paddingTop="10dp"
-        android:paddingBottom="10dp"
-        android:textColor="#dd000000"
-        android:textStyle="bold"
-        android:background="#11000000"/>
-
-    <EditText
-        android:id="@+id/et_search"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:drawableLeft="@drawable/ic_input_search"
-        android:hint="검색"/>
+        android:layout_height="?attr/actionBarSize"
+        android:background="#0368f5"
+        android:theme="@style/ThemeOverlay.AppCompat.Dark" />
 
     <ListView
         android:id="@+id/list"
@@ -38,7 +26,10 @@
     <Button
         android:id="@+id/btn_create"
         android:text="채팅방생성"
-        android:textSize="13sp"
+        android:textSize="18dp"
+        android:textColor="#ffffff"
+        android:background="#0368f5"
+        android:textStyle="bold"
         android:layout_width="match_parent"
         android:layout_height="50dp"
         android:layout_marginTop="-50dp"/>

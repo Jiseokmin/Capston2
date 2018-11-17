@@ -19,7 +19,9 @@ import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.ImageButton;
 import android.widget.ListView;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import com.google.firebase.database.ChildEventListener;
@@ -41,9 +43,9 @@ public class ChickenChatActivity extends AppCompatActivity {
     private static final String TAG = "ChickenChatActivity";
 
     private ListView userlist;  //현재 대화방에 있는 user들 저장하기 위한 listview
-    private ListView lv_chating;
+    private ListView lv_chating;    //채팅 내용 나타내는 listview
     private EditText et_send;
-    private Button btn_send;
+    private ImageButton btn_send;
 
     Map<String, Object> map = new HashMap<String, Object>();
 
@@ -85,17 +87,18 @@ public class ChickenChatActivity extends AppCompatActivity {
         ActionBar actionBar = getSupportActionBar();
         actionBar.setDisplayHomeAsUpEnabled(true);
 
+
         et_send = (EditText) findViewById(R.id.et_send);
         lv_chating = (ListView) findViewById(R.id.lv_chating);
-        btn_send = (Button) findViewById(R.id.btn_send);
+        btn_send = (ImageButton) findViewById(R.id.btn_send);
 
         str_room_name = getIntent().getExtras().get("room_name").toString();
         str_user_name = getIntent().getExtras().get("user_name").toString();
 
         mDatabase = FirebaseDatabase.getInstance().getReference();
-        reference = FirebaseDatabase.getInstance().getReference().child(str_room_name);
+        reference = FirebaseDatabase.getInstance().getReference().child(what).child(str_room_name).child(str_room_name+"-chat");
         reference_user =  FirebaseDatabase.getInstance()
-                .getReference().child(str_room_name+"user").getRef();
+                .getReference().child(what).child(str_room_name).child(str_room_name+"-user").getRef();
 
         setTitle(str_room_name);
 

@@ -4,12 +4,16 @@
     android:layout_height="match_parent"
     android:background="#0368f5">
 
-
-    <TextView
-        android:id="@+id/title"
+    <ImageView
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="대화 상대"
+        android:src="@drawable/ic_action_smile"/>
+
+    <TextView
+        android:id="@+id/main_title"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="ID"
         android:textSize="30dp"
         android:textColor="#FFFFFF"
         android:layout_weight="4"

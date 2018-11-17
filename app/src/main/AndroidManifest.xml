@@ -13,7 +13,7 @@
         android:roundIcon="@mipmap/capston_logo_round"
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
-
+        <receiver android:name=".AlarmService" android:process=":remote" />
 
         <activity android:name=".SplashActivity"
             android:theme="@style/SplashTheme"
@@ -26,10 +26,6 @@
         </activity>
 
         <activity android:name=".LoginActivity">
-            <intent-filter>
-                <action android:name="android.intent.action.MAIN" />
-                <category android:name="android.intent.category.DEFAULT" />
-            </intent-filter>
         </activity>
         <activity android:name=".MainActivity" />
         <activity android:name=".RegisterActivity" />

@@ -36,6 +36,14 @@
         />
     </android.support.v7.widget.Toolbar>
 
+    <cn.trinea.android.view.autoscrollviewpager.AutoScrollViewPager
+        android:id="@+id/autoViewPager"
+        android:layout_width="match_parent"
+        android:layout_height="70dp"
+        android:layout_marginTop="20dp">
+
+    </cn.trinea.android.view.autoscrollviewpager.AutoScrollViewPager>
+
 <LinearLayout
     android:layout_width="wrap_content"
     android:layout_height="wrap_content"
@@ -49,7 +57,7 @@
         android:id="@+id/chicken"
         android:layout_gravity="center"
         android:layout_weight="1"
-        android:src="@drawable/btn_chicken"/>
+        android:src="@drawable/btn_chicken2"/>
 
     <ImageButton
     android:layout_width="wrap_content"
@@ -57,7 +65,7 @@
     android:id="@+id/soju"
     android:layout_gravity="center"
     android:layout_weight="1"
-    android:src="@drawable/btn_soju"/>
+    android:src="@drawable/btn_soju2"/>
 
     <ImageButton
         android:layout_width="wrap_content"
@@ -65,7 +73,7 @@
         android:id="@+id/mic"
         android:layout_gravity="center"
         android:layout_weight="1"
-        android:src="@drawable/btn_mic"/>
+        android:src="@drawable/btn_mic2"/>
 
 </LinearLayout>
 
@@ -81,7 +89,15 @@
             android:id="@+id/basketball"
             android:layout_gravity="center"
             android:layout_weight="1"
-            android:src="@drawable/btn_basketball"/>
+            android:src="@drawable/btn_basketball2"/>
+
+        <ImageButton
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:id="@+id/soccer"
+            android:layout_gravity="center"
+            android:layout_weight="1"
+            android:src="@drawable/btn_soccer"/>
 
         <ImageButton
             android:layout_width="wrap_content"
@@ -89,7 +105,32 @@
             android:id="@+id/study"
             android:layout_gravity="center"
             android:layout_weight="1"
-            android:src="@drawable/btn_study"/>
+            android:src="@drawable/btn_study2"/>
+
+
+    </LinearLayout>
+
+    <LinearLayout
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:background="#0368f5"
+        android:orientation="horizontal">
+
+        <ImageButton
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:id="@+id/movie"
+            android:layout_gravity="center"
+            android:layout_weight="1"
+            android:src="@drawable/btn_movie"/>
+
+        <ImageButton
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:id="@+id/meal"
+            android:layout_gravity="center"
+            android:layout_weight="1"
+            android:src="@drawable/btn_meal"/>
 
         <ImageButton
             android:layout_width="wrap_content"

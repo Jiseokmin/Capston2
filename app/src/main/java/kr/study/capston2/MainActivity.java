@@ -38,9 +38,13 @@ import java.util.Date;
 import java.util.HashMap;
 import java.util.Map;
 
+import cn.trinea.android.view.autoscrollviewpager.AutoScrollViewPager;
+
 public class MainActivity extends AppCompatActivity {
     String userID;
     String what;
+
+    private AutoScrollViewPager autoViewPager;
 
     private TextView txt_id;
     private ListView userlist;  //개인정보를 나타내기 위한 listview
@@ -53,6 +57,19 @@ public class MainActivity extends AppCompatActivity {
         setContentView(R.layout.activity_main);
 
         registerAlarm();
+/////////////////////////////////////////////////////////////////이미지 슬라이더 //////////////////////////////////////////////////////////////////////
+        ArrayList<String> data = new ArrayList<>(); //이미지 url를 저장하는 arraylist
+        data.add("https://blogfiles.pstatic.net/MjAxODExMThfMzkg/MDAxNTQyNTMxODk4ODky.IqCZr-deaJOGvOBd_5KmAojBhVQRpyJ4hAuknAIK6k4g.S4gPEoqOeK59dluc4Za-3C751phRsu6F59DJaZTbOQ4g.PNG.37jr/first.PNG");
+        data.add("https://blogfiles.pstatic.net/MjAxODExMThfMjQ1/MDAxNTQyNTMxMjYxODYw.wnfK7j8AfnoCYXoxVXQF7B0GJ_qZ3I8a_m3whUzGiDgg.Aebsb20xJ6Zh6A5-f5eiK-zTxqEcywvsVdGBVq_RlMkg.PNG.37jr/second.PNG");
+        data.add("https://blogfiles.pstatic.net/MjAxODExMThfMTQ0/MDAxNTQyNTMxMjY2MDk5.VJEVIsm-Oe5gOwPz7ho6cwEx3pC8g0m96FJtZdz91Bwg.AofgIdJRdA3zpY6G2SbLY3NXM9_udAQOFL5orZVxXmcg.PNG.37jr/third.PNG");
+
+        autoViewPager = (AutoScrollViewPager)findViewById(R.id.autoViewPager);
+        AutoScrollAdapter scrollAdapter = new AutoScrollAdapter(this, data);
+        autoViewPager.setAdapter(scrollAdapter); //Auto Viewpager에 Adapter 장착
+        autoViewPager.setInterval(5000); // 페이지 넘어갈 시간 간격 설정
+        autoViewPager.startAutoScroll(); //Auto Scroll 시작
+
+        ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
@@ -66,7 +83,11 @@ public class MainActivity extends AppCompatActivity {
         final ImageButton imagebtn_mic = (ImageButton) findViewById(R.id.mic);
 
         final ImageButton imagebtn_basketball = (ImageButton) findViewById(R.id.basketball);
+        final ImageButton imagebtn_soccer = (ImageButton) findViewById(R.id.soccer);
         final ImageButton imagebtn_study = (ImageButton) findViewById(R.id.study);
+
+        final ImageButton imagebtn_movie = (ImageButton) findViewById(R.id.movie);
+        final ImageButton imagebtn_meal = (ImageButton) findViewById(R.id.meal);
         final ImageButton imagebtn_failer = (ImageButton) findViewById(R.id.failer);
 
         userlist=(ListView)findViewById(R.id.main_drawer);
@@ -258,6 +279,107 @@ public class MainActivity extends AppCompatActivity {
                     }
                 });
 
+                imagebtn_soccer.setOnClickListener(new View.OnClickListener() {        //축구 채팅방 입장
+
+                    @Override
+                    public void onClick(View arg0) {
+
+                        if(point >= 0) {
+                            Intent intent = new Intent(MainActivity.this, ChickenActivity.class);
+                            what = "soccer";
+
+
+                            intent.putExtra("userID", userID);
+                            intent.putExtra("what", what);
+
+                            MainActivity.this.startActivity(intent);
+                        }
+                        else {
+                            new AlertDialog.Builder(MainActivity.this)
+                                    .setTitle("약속 장소에 안나가셨나요?")
+                                    .setMessage("여러 명과의 약속을 어겨 '천하제일 파토대회' 만 이용가능합니다.")
+                                    .setNegativeButton("돌아가기",
+                                            new DialogInterface.OnClickListener() {
+                                                public void onClick(
+                                                        DialogInterface dialog, int id) {
+                                                    dialog.cancel();
+                                                }
+                                            })
+
+                                    .show();
+                        }
+
+
+                    }
+                });
+
+                imagebtn_movie.setOnClickListener(new View.OnClickListener() {        //영화 채팅방 입장
+
+                    @Override
+                    public void onClick(View arg0) {
+
+                        if(point >= 0) {
+                            Intent intent = new Intent(MainActivity.this, ChickenActivity.class);
+                            what = "movie";
+
+
+                            intent.putExtra("userID", userID);
+                            intent.putExtra("what", what);
+
+                            MainActivity.this.startActivity(intent);
+                        }
+                        else {
+                            new AlertDialog.Builder(MainActivity.this)
+                                    .setTitle("약속 장소에 안나가셨나요?")
+                                    .setMessage("여러 명과의 약속을 어겨 '천하제일 파토대회' 만 이용가능합니다.")
+                                    .setNegativeButton("돌아가기",
+                                            new DialogInterface.OnClickListener() {
+                                                public void onClick(
+                                                        DialogInterface dialog, int id) {
+                                                    dialog.cancel();
+                                                }
+                                            })
+
+                                    .show();
+                        }
+
+
+                    }
+                });
+
+                imagebtn_meal.setOnClickListener(new View.OnClickListener() {        //식사 채팅방 입장
+
+                    @Override
+                    public void onClick(View arg0) {
+
+                        if(point >= 0) {
+                            Intent intent = new Intent(MainActivity.this, ChickenActivity.class);
+                            what = "meal";
+
+
+                            intent.putExtra("userID", userID);
+                            intent.putExtra("what", what);
+
+                            MainActivity.this.startActivity(intent);
+                        }
+                        else {
+                            new AlertDialog.Builder(MainActivity.this)
+                                    .setTitle("약속 장소에 안나가셨나요?")
+                                    .setMessage("여러 명과의 약속을 어겨 '천하제일 파토대회' 만 이용가능합니다.")
+                                    .setNegativeButton("돌아가기",
+                                            new DialogInterface.OnClickListener() {
+                                                public void onClick(
+                                                        DialogInterface dialog, int id) {
+                                                    dialog.cancel();
+                                                }
+                                            })
+
+                                    .show();
+                        }
+
+
+                    }
+                });
                 imagebtn_study.setOnClickListener(new View.OnClickListener() {        //스터디 채팅방 입장
 
                     @Override
@@ -291,7 +413,6 @@ public class MainActivity extends AppCompatActivity {
 
                     }
                 });
-
 
             }
 

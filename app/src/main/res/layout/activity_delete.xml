@@ -28,6 +28,7 @@
         />
 
     <EditText
+        android:id="@+id/et_delete"
         android:layout_width="355dp"
         android:layout_height="33dp"
         android:layout_marginTop="20dp"

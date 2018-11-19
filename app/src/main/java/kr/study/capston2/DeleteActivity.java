@@ -13,6 +13,7 @@ import android.util.Log;
 import android.view.Menu;
 import android.view.View;
 import android.widget.Button;
+import android.widget.EditText;
 import android.widget.Toast;
 
 import com.android.volley.RequestQueue;
@@ -48,7 +49,7 @@ public class DeleteActivity extends AppCompatActivity {
 
         Intent intent = getIntent();   //Login 에서 Main,, Main에서 Chicken 으로 userID를 받아옴
         userID  = intent.getStringExtra("userID");
-
+        final EditText passwordText = (EditText) findViewById(R.id.et_delete);
 
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
@@ -60,6 +61,7 @@ public class DeleteActivity extends AppCompatActivity {
         deleteButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
+                String userPassword = passwordText.getText().toString();
                 Response.Listener<String> responseListener = new Response.Listener<String>() {
                     @Override
                     public void onResponse(String response) {
@@ -83,6 +85,16 @@ public class DeleteActivity extends AppCompatActivity {
 
                                  startActivity(intent);
                                  finish();
+
+
+                             }
+                             else {
+
+                                 android.support.v7.app.AlertDialog.Builder builder = new android.support.v7.app.AlertDialog.Builder(DeleteActivity.this);
+                                 builder.setMessage("비밀번호가 일치하지 않습니다!")
+                                         .setNegativeButton("다시 시도", null)
+                                         .create()
+                                         .show();
                              }
                          }
                          catch (Exception e) {
@@ -90,7 +102,7 @@ public class DeleteActivity extends AppCompatActivity {
                          }
                     }
                 };
-                DeleteRequest deleteRequest = new DeleteRequest(userID,responseListener);
+                DeleteRequest deleteRequest = new DeleteRequest(userID,userPassword,responseListener);
                 RequestQueue queue = Volley.newRequestQueue(DeleteActivity.this);
                 queue.add(deleteRequest);
 

@@ -30,13 +30,24 @@ import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
+import com.google.firebase.iid.FirebaseInstanceId;
+import com.google.gson.Gson;
 
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.HashSet;
 import java.util.Iterator;
 import java.util.Map;
 import java.util.Set;
+
+import okhttp3.Call;
+import okhttp3.Callback;
+import okhttp3.MediaType;
+import okhttp3.OkHttpClient;
+import okhttp3.Request;
+import okhttp3.RequestBody;
+import okhttp3.Response;
 
 public class ChickenChatActivity extends AppCompatActivity {
     private  String numToStr;
@@ -46,6 +57,7 @@ public class ChickenChatActivity extends AppCompatActivity {
     private ListView lv_chating;    //채팅 내용 나타내는 listview
     private EditText et_send;
     private ImageButton btn_send;
+    private String room_user;
 
     Map<String, Object> map = new HashMap<String, Object>();
 
@@ -94,6 +106,7 @@ public class ChickenChatActivity extends AppCompatActivity {
 
         str_room_name = getIntent().getExtras().get("room_name").toString();
         str_user_name = getIntent().getExtras().get("user_name").toString();
+        room_user = str_room_name+"-user";
 
         mDatabase = FirebaseDatabase.getInstance().getReference();
         reference = FirebaseDatabase.getInstance().getReference().child(what).child(str_room_name).child(str_room_name+"-chat");
@@ -207,7 +220,40 @@ public class ChickenChatActivity extends AppCompatActivity {
 
                 root.updateChildren(objectMap);
 
-                et_send.setText("");
+
+                FirebaseDatabase.getInstance().getReference().child(what).child(str_room_name).child(room_user).addListenerForSingleValueEvent(new ValueEventListener() {
+                    @Override
+                    public void onDataChange(DataSnapshot dataSnapshot) {
+                        Map<String,Boolean> map =(Map<String, Boolean>) dataSnapshot.getValue();
+
+                        for(String item: map.keySet()) {
+                            if(item.equals(str_user_name)) {        //본인 일 경우 푸쉬 알림 보내지 않음
+                                continue;
+                            }
+                            FirebaseDatabase.getInstance().getReference().child("users").child(item).child("pushToken").addListenerForSingleValueEvent(new ValueEventListener() {
+                                @Override
+                                public void onDataChange(DataSnapshot dataSnapshot) {
+                                    Map<String, Object> taskMap = new HashMap<String, Object>();
+                                    String value = dataSnapshot.getValue(String.class);
+                                    sendGcm(value,str_user_name);
+                                    et_send.setText("");
+                                }
+
+                                @Override
+                                public void onCancelled(DatabaseError databaseError) {
+                                    // Failed to read value
+                                    Log.w(TAG, "Failed to read value.", databaseError.toException());
+                                }
+                            });
+                        }
+
+                    }
+
+                    @Override
+                    public void onCancelled(DatabaseError databaseError) {
+
+                    }
+                });
             }
         });
 
@@ -255,6 +301,40 @@ public class ChickenChatActivity extends AppCompatActivity {
 
             }
         });
+
+
+    }
+
+    void sendGcm(String pushToken, String userName) {       //푸쉬 알림용
+
+                Gson gson = new Gson();
+
+                NotificationModel notificationModel = new NotificationModel();
+                notificationModel.to = pushToken;
+                notificationModel.notification.title = userName;
+                notificationModel.notification.text = et_send.getText().toString();
+                 notificationModel.data.title = userName;
+                 notificationModel.data.text = et_send.getText().toString();
+
+                RequestBody requestBody = RequestBody.create(MediaType.parse("application/json; charset=utf8"),gson.toJson(notificationModel));
+                Request request  = new Request.Builder()
+                        .header("Content-Type","application/json")
+                        .addHeader("Authorization","key=AIzaSyBc4Im7pxL2EsJ1H9st5kXeTjDOi9MAjTo")
+                        .url("https://gcm-http.googleapis.com/gcm/send")
+                        .post(requestBody)
+                        .build();
+                OkHttpClient okHttpClient = new OkHttpClient();
+                okHttpClient.newCall(request).enqueue(new Callback() {
+                    @Override
+                    public void onFailure(Call call, IOException e) {
+
+                    }
+
+                    @Override
+                    public void onResponse(Call call, Response response) throws IOException {
+
+                    }
+                });
     }
 
     //액션버튼 메뉴 액션바에 집어 넣기

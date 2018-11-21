@@ -30,6 +30,7 @@ import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
+import com.google.firebase.iid.FirebaseInstanceId;
 
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
@@ -439,7 +440,7 @@ public class MainActivity extends AppCompatActivity {
                 MainActivity.this.startActivity(intent);
             }
         });
-
+        passPushTokenToServer(userID);
     }
     @Override
     protected void onStop() {
@@ -493,7 +494,17 @@ public class MainActivity extends AppCompatActivity {
 
     }
 
+    void passPushTokenToServer(String userID) {
+
+        String uID = userID;
+
+        String token = FirebaseInstanceId.getInstance().getToken();
+        Map<String,Object> map =new HashMap<>();
+        map.put("pushToken",token);
+
+        FirebaseDatabase.getInstance().getReference().child("users").child(uID).updateChildren(map);
+    }
+
 }
 
 //푸쉬 알림
-//개인정보 추가(회원탈퇴 등)

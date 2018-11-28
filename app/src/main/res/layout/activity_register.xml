@@ -7,9 +7,18 @@
     android:orientation="vertical"
     tools:context="kr.study.capston2.RegisterActivity">
 
+    <android.support.v7.widget.Toolbar
+        android:id="@+id/toolbar"
+        android:layout_width="match_parent"
+        android:layout_height="?attr/actionBarSize"
+        android:background="#0368f5"
+        android:theme="@style/ThemeOverlay.AppCompat.Dark" />
+
+
     <EditText
         android:id="@+id/idText"
         android:layout_width="match_parent"
+        android:padding="10dp"
         android:layout_height="wrap_content"
         android:ems="10"
         android:hint="아이디"
@@ -17,6 +26,7 @@
 
     <EditText
         android:id="@+id/passWordText"
+        android:padding="10dp"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:ems="10"
@@ -25,6 +35,7 @@
 
     <EditText
         android:id="@+id/passWordText2"
+        android:padding="10dp"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:ems="10"
@@ -33,20 +44,13 @@
 
     <EditText
         android:id="@+id/nameText"
+        android:padding="10dp"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:ems="10"
         android:hint="이름"
         android:inputType="textPersonName" />
 
-    <EditText
-        android:id="@+id/ageText"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:ems="10"
-        android:hint="나이"
-        android:inputType="textPersonName" />
-    
     <RadioGroup
         android:layout_width="280dp"
         android:layout_height="wrap_content"
@@ -80,6 +84,10 @@
         android:id="@+id/registerButton"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:textColor="#ffffff"
+        android:background="#0368f5"
+        android:layout_marginTop="7dp"
+        android:textSize="17dp"
         android:text="회원가입" />
 
 </LinearLayout>

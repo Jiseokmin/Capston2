@@ -33,7 +33,7 @@
         <activity android:name=".RegisterActivity2" />
         <activity android:name=".AuthActivity" />
         <activity android:name=".ChickenActivity" />
-        <activity android:name=".ChickenChatActivity" />
+        <activity android:name=".ChickenChatActivity" ></activity>
         <activity android:name=".DeleteActivity"></activity>
 
         <service
@@ -43,5 +43,9 @@
             </intent-filter>
         </service>
     </application>
+
+    <meta-data
+        android:name="com.google.firebase.messaging.default_notification_icon"
+        android:resource="@mipmap/capston_logo_round" />
 
 </manifest>

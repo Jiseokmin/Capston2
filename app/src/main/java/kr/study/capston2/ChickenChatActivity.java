@@ -79,6 +79,8 @@ public class ChickenChatActivity extends AppCompatActivity {
     private String chat_message;
     private String what;
 
+    private ImageButton btn_exit;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -88,7 +90,11 @@ public class ChickenChatActivity extends AppCompatActivity {
 
         userlist=(ListView)findViewById(R.id.drawer);
         final View header = getLayoutInflater().inflate(R.layout.listview_header, null, false) ;
-        userlist.addHeaderView(header) ;
+
+        btn_exit = (ImageButton) header.findViewById(R.id.btn_exit);    //방 나가기 버튼
+
+
+        userlist.addHeaderView(header) ;    //drawer에 있는 리스트뷰에 header
 
 
         Intent intent = getIntent();
@@ -105,7 +111,7 @@ public class ChickenChatActivity extends AppCompatActivity {
         btn_send = (ImageButton) findViewById(R.id.btn_send);
 
         str_room_name = getIntent().getExtras().get("room_name").toString();
-        str_user_name = getIntent().getExtras().get("user_name").toString();
+        str_user_name = getIntent().getExtras().get("userID").toString();
         room_user = str_room_name+"-user";
 
         mDatabase = FirebaseDatabase.getInstance().getReference();
@@ -132,6 +138,71 @@ public class ChickenChatActivity extends AppCompatActivity {
 
         arrayAdapter.setName(str_user_name);    //자기 인지 확인해서 채팅방에 적용
         arrayAdapter.notifyDataSetChanged();
+
+
+        /////////////////방 나가기 이벤트
+        btn_exit.setOnClickListener(new View.OnClickListener() {
+
+            @Override
+            public void onClick(View arg0) {
+
+                new AlertDialog.Builder(ChickenChatActivity.this)
+
+                        .setMessage("채팅방에서 나가시겠습니까?")
+
+                        .setNeutralButton("나가기", new DialogInterface.OnClickListener() {
+
+                            public void onClick(DialogInterface dlg, int sumthin) {
+
+                                Intent intent  = new Intent(ChickenChatActivity.this,ChickenActivity.class);
+                                intent.putExtra("userID", str_user_name);
+                                intent.putExtra("what", what);
+
+                                ChickenChatActivity.this.startActivity(intent);
+                                finish();
+
+                                FirebaseDatabase.getInstance()          ///채팅방에 있는 유저이름에 true로 설정
+                                        .getReference().child(what).child(str_room_name).child(str_room_name+"-user").child(str_user_name).getRef().setValue("true");
+
+                                ////////나가기 버튼 클릭하면 나가게 하기 ////////////화면 매끄럽게 하기 위해 따로 구현
+                                FirebaseDatabase.getInstance() .getReference().child(what).child(str_room_name).child(str_room_name+"-user").child(str_user_name).addListenerForSingleValueEvent(new ValueEventListener() {
+                                    @Override
+                                    public void onDataChange(DataSnapshot dataSnapshot) {
+                                        String value = dataSnapshot.getValue(String.class);
+                                        if(value.equals("true")) {
+                                            FirebaseDatabase.getInstance()      ////채팅방에 있는 유저이름에 true면 DB에서 채팅방 유저 이름 삭제
+                                                    .getReference().child(what).child(str_room_name).child(str_room_name+"-user").child(str_user_name).getRef().removeValue();
+
+                                        }
+                                    }
+
+                                    @Override
+                                    public void onCancelled(DatabaseError databaseError) {
+
+                                    }
+                                });
+
+                            }
+                        })
+
+                        .setNegativeButton("취소", new DialogInterface.OnClickListener() {
+                            public void onClick(DialogInterface dialog, int id) {
+                                // 다이얼로그를 취소한다
+                                dialog.cancel();
+                            }
+                        })
+
+                        .show(); // 팝업창 보여줌
+
+
+            }
+
+
+
+        });
+
+
+
 
         toolbar.setNavigationOnClickListener(new View.OnClickListener() {      //뒤로 가기 버튼 클릭하면 ChickenActivity 로 이동
             @Override
@@ -235,7 +306,7 @@ public class ChickenChatActivity extends AppCompatActivity {
                                 public void onDataChange(DataSnapshot dataSnapshot) {
                                     Map<String, Object> taskMap = new HashMap<String, Object>();
                                     String value = dataSnapshot.getValue(String.class);
-                                    sendGcm(value,str_user_name);
+                                    sendFcm(value,str_user_name,what,str_room_name);
                                     et_send.setText("");
                                 }
 
@@ -305,36 +376,42 @@ public class ChickenChatActivity extends AppCompatActivity {
 
     }
 
-    void sendGcm(String pushToken, String userName) {       //푸쉬 알림용
+    void sendFcm(String pushToken, String userName,String what,String room_name) {       //푸쉬 알림용
 
-                Gson gson = new Gson();
+        Gson gson = new Gson();
 
-                NotificationModel notificationModel = new NotificationModel();
-                notificationModel.to = pushToken;
-                notificationModel.notification.title = userName;
-                notificationModel.notification.text = et_send.getText().toString();
-                 notificationModel.data.title = userName;
-                 notificationModel.data.text = et_send.getText().toString();
+        NotificationModel notificationModel = new NotificationModel();
+        notificationModel.to = pushToken;
+        notificationModel.notification.title = room_name;   //background 일 때
+        notificationModel.notification.text = et_send.getText().toString();
+        notificationModel.notification.what = what;
+        notificationModel.notification.room_name = room_name;
 
-                RequestBody requestBody = RequestBody.create(MediaType.parse("application/json; charset=utf8"),gson.toJson(notificationModel));
-                Request request  = new Request.Builder()
-                        .header("Content-Type","application/json")
-                        .addHeader("Authorization","key=AIzaSyBc4Im7pxL2EsJ1H9st5kXeTjDOi9MAjTo")
-                        .url("https://gcm-http.googleapis.com/gcm/send")
-                        .post(requestBody)
-                        .build();
-                OkHttpClient okHttpClient = new OkHttpClient();
-                okHttpClient.newCall(request).enqueue(new Callback() {
-                    @Override
-                    public void onFailure(Call call, IOException e) {
 
-                    }
+        notificationModel.data.title = userName;        ///foreground 일때
+        notificationModel.data.text = et_send.getText().toString();
+        notificationModel.data.what = what;
+        notificationModel.data.room_name = room_name;
 
-                    @Override
-                    public void onResponse(Call call, Response response) throws IOException {
+        RequestBody requestBody = RequestBody.create(MediaType.parse("application/json; charset=utf8"),gson.toJson(notificationModel));
+        Request request  = new Request.Builder()
+                .header("Content-Type","application/json")
+                .addHeader("Authorization","key=AIzaSyBc4Im7pxL2EsJ1H9st5kXeTjDOi9MAjTo")
+                .url("https://fcm.googleapis.com/fcm/send")
+                .post(requestBody)
+                .build();
+        OkHttpClient okHttpClient = new OkHttpClient();
+        okHttpClient.newCall(request).enqueue(new Callback() {
+            @Override
+            public void onFailure(Call call, IOException e) {
 
-                    }
-                });
+            }
+
+            @Override
+            public void onResponse(Call call, Response response) throws IOException {
+
+            }
+        });
     }
 
     //액션버튼 메뉴 액션바에 집어 넣기

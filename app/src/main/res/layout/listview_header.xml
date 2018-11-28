@@ -4,7 +4,6 @@
     android:layout_height="match_parent"
     android:background="#0368f5">
 
-
     <TextView
         android:id="@+id/title"
         android:layout_width="wrap_content"
@@ -14,6 +13,14 @@
         android:textColor="#FFFFFF"
         android:layout_weight="4"
         android:paddingLeft="16dp" />
+
+   <ImageButton
+       android:layout_width="wrap_content"
+       android:layout_height="wrap_content"
+       android:layout_marginTop="10dp"
+       android:background="#0368f5"
+       android:id="@+id/btn_exit"
+       android:src="@drawable/btn_exit"/>
 
 
 </LinearLayout>

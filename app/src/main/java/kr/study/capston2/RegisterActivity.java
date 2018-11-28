@@ -1,9 +1,12 @@
 package kr.study.capston2;
 
+import android.content.DialogInterface;
 import android.content.Intent;
+import android.support.v7.app.ActionBar;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.support.v7.widget.Toolbar;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
@@ -38,7 +41,6 @@ public class RegisterActivity extends AppCompatActivity {
         final EditText passwordText = (EditText)findViewById(R.id.passWordText);
         final EditText passwordText2 = (EditText)findViewById(R.id.passWordText2);
         final EditText nameText = (EditText)findViewById(R.id.nameText);
-        final EditText ageText = (EditText)findViewById(R.id.ageText);
 
         final String usermail;
 
@@ -61,6 +63,22 @@ public class RegisterActivity extends AppCompatActivity {
         usermail=intent.getStringExtra("mail");    //// 넘어온 메일아이디 받기
 
 
+        Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);     //툴바 생성
+        setSupportActionBar(toolbar);
+        ActionBar actionBar = getSupportActionBar();
+        actionBar.setDisplayHomeAsUpEnabled(true);
+
+        toolbar.setNavigationOnClickListener(new View.OnClickListener() {      //뒤로 가기 버튼 클릭하면 MainActivity 로 이동
+            @Override
+            public void onClick(View v) {
+
+                Intent intent  = new Intent(RegisterActivity.this,LoginActivity.class);
+                RegisterActivity.this.startActivity(intent);
+                finish();
+            }
+        });
+
+
         Button registerButton = (Button) findViewById(R.id.registerButton);
 
         registerButton.setOnClickListener(new View.OnClickListener() {
@@ -68,13 +86,9 @@ public class RegisterActivity extends AppCompatActivity {
             @Override
             public void onClick(View view) {
                 final String userID = idText.getText().toString();
-                final int userAge = Integer.parseInt(ageText.getText().toString());
                  final String userPassword = passwordText.getText().toString();
                  final String userPassword2 = passwordText2.getText().toString();
                 final String userMail = usermail;
-
-
-
                   String userName = nameText.getText().toString();
 
 
@@ -96,14 +110,20 @@ public class RegisterActivity extends AppCompatActivity {
                             if (success && duplicate) {
 
                                 AlertDialog.Builder builder = new AlertDialog.Builder(RegisterActivity.this);  //성공 할 경우 알람 뜨게함
-                                builder.setMessage("회원 등록에 성공했습니다")
-                                        .setPositiveButton("확인", null)
+                                builder.setTitle(" 놀친 회원가입을 환영합니다!")
+                                        .setPositiveButton("확인", new DialogInterface.OnClickListener() {
+                                            public void onClick(DialogInterface dialog, int id) {
+                                                // 다이얼로그를 취소한다
+                                                dialog.cancel();
+                                                Intent intent = new Intent(RegisterActivity.this, LoginActivity.class); //회원 가입 성공 할 경우 로그인 액티비티로 이동
+                                                RegisterActivity.this.startActivity(intent);
+                                                add = true;
+                                                finish();
+                                            }
+                                        })
                                         .create().show();
 
-                                Intent intent = new Intent(RegisterActivity.this, LoginActivity.class); //회원 가입 성공 할 경우 로그인 액티비티로 이동
-                                RegisterActivity.this.startActivity(intent);
-                                add = true;
-                                finish();
+
                             }
                             else {
 
@@ -130,7 +150,7 @@ public class RegisterActivity extends AppCompatActivity {
                 };
 
                     writeNewUser(userID,"15");    //Firebase DB에 userID 와 point 저장
-                    RegisterRequest registerRequest = new RegisterRequest(userID, userPassword, userPassword2,userName,userMail,userAge,userGender, responseListener);
+                    RegisterRequest registerRequest = new RegisterRequest(userID, userPassword, userPassword2,userName,userMail,userGender, responseListener);
                     RequestQueue queue = Volley.newRequestQueue(RegisterActivity.this);
                     queue.add(registerRequest);
 

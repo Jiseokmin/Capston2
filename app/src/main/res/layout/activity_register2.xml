@@ -8,31 +8,46 @@
     tools:context="kr.study.capston2.RegisterActivity2"
     android:weightSum="1">
 
+    <android.support.v7.widget.Toolbar
+        android:id="@+id/toolbar"
+        android:layout_width="match_parent"
+        android:layout_height="?attr/actionBarSize"
+        android:background="#0368f5"
+        android:theme="@style/ThemeOverlay.AppCompat.Dark" />
+
     <LinearLayout
         android:layout_width="match_parent"
-        android:layout_height="73dp"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center_horizontal"
         android:orientation="horizontal">
+
+
 
         <EditText
             android:id="@+id/et_email"
-            android:layout_width="194dp"
+            android:layout_width="200dp"
             android:layout_height="wrap_content"
-            android:ems="10"
+            android:layout_marginLeft="10dp"
+            android:textSize="23dp"
             android:hint="Email"
             android:inputType="textPersonName" />
 
         <TextView
             android:id="@+id/tv_email"
-            android:layout_width="196dp"
-            android:layout_height="38dp"
-            android:textSize="20dp"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:textSize="24dp"
             android:text="textView" />
     </LinearLayout>
 
     <Button
         android:id="@+id/btn_confirm"
         android:layout_width="103dp"
-        android:layout_marginLeft="150dp"
+        android:textColor="#ffffff"
+        android:background="#0368f5"
+        android:textStyle="bold"
+        android:layout_marginTop="7dp"
+        android:layout_gravity="center_horizontal"
         android:layout_height="wrap_content"
         android:text="인증" />
 

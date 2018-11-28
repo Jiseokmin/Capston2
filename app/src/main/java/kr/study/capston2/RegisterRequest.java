@@ -15,7 +15,7 @@ public class RegisterRequest extends StringRequest {
     final static private String URL = "http://wltjrals45.cafe24.com/Register.php";
     private Map<String, String> parameters;
 
-    public RegisterRequest(String userID, String userPassword, String userPassword2, String userName ,String userMail, int userAge,String userGender, Response.Listener<String> listener) {
+    public RegisterRequest(String userID, String userPassword, String userPassword2, String userName ,String userMail,String userGender, Response.Listener<String> listener) {
         super(Method.POST, URL, listener, null);
         parameters = new HashMap<>();
         parameters.put("userID",userID);
@@ -23,7 +23,6 @@ public class RegisterRequest extends StringRequest {
         parameters.put("userPassword2",userPassword2);
         parameters.put("userName",userName);
         parameters.put("userMail",userMail);
-        parameters.put("userAge",userAge + "");
         parameters.put("userGender",userGender);
     }
 

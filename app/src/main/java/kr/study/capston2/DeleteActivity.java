@@ -51,7 +51,7 @@ public class DeleteActivity extends AppCompatActivity {
         userID  = intent.getStringExtra("userID");
         final EditText passwordText = (EditText) findViewById(R.id.et_delete);
 
-        Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
+        Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);     //툴바 생성
         setSupportActionBar(toolbar);
         ActionBar actionBar = getSupportActionBar();
         actionBar.setDisplayHomeAsUpEnabled(true);

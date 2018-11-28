@@ -7,6 +7,7 @@ import android.app.PendingIntent;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.SharedPreferences;
+import android.os.Build;
 import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.ActionBar;
 import android.support.v7.app.AppCompatActivity;
@@ -67,7 +68,7 @@ public class MainActivity extends AppCompatActivity {
         autoViewPager = (AutoScrollViewPager)findViewById(R.id.autoViewPager);
         AutoScrollAdapter scrollAdapter = new AutoScrollAdapter(this, data);
         autoViewPager.setAdapter(scrollAdapter); //Auto Viewpager에 Adapter 장착
-        autoViewPager.setInterval(5000); // 페이지 넘어갈 시간 간격 설정
+        autoViewPager.setInterval(3700); // 페이지 넘어갈 시간 간격 설정
         autoViewPager.startAutoScroll(); //Auto Scroll 시작
 
         ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
@@ -115,7 +116,7 @@ public class MainActivity extends AppCompatActivity {
         userlist.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(final AdapterView parent, View v, final int position, long id) {
-                if(position == 1) { //로그아웃
+                if(position == 1) {         //////로그아웃
                     Intent intent = new Intent(MainActivity.this, LoginActivity.class);
                     startActivity(intent);
                     SharedPreferences auto = getSharedPreferences("auto", Activity.MODE_PRIVATE);
@@ -480,16 +481,23 @@ public class MainActivity extends AppCompatActivity {
         AlarmManager am = (AlarmManager) getSystemService(ALARM_SERVICE);
         Calendar calendar = Calendar.getInstance();
 
-        if (calendar.get(Calendar.HOUR_OF_DAY) >= 10) {     //아침 10시 마다 실행
+        if (calendar.get(Calendar.HOUR_OF_DAY) >= 5) {     //아침 5시 마다 실행
 
             calendar.add(Calendar.DATE, 1);
         }
 
-        calendar.set(Calendar.HOUR_OF_DAY, 10);
+        calendar.set(Calendar.HOUR_OF_DAY, 5);
         calendar.set(Calendar.MINUTE, 0);
         calendar.set(Calendar.SECOND, 0);
 
-        am.set(AlarmManager.RTC, calendar.getTimeInMillis(), sender);
+        if (Build.VERSION.SDK_INT >= 19) {
+            am.setExact(AlarmManager.RTC_WAKEUP, calendar.getTimeInMillis(), sender);
+        }
+
+        else {
+            am.set(AlarmManager.RTC_WAKEUP, calendar.getTimeInMillis(), sender);
+        }
+
 
 
     }
@@ -507,4 +515,4 @@ public class MainActivity extends AppCompatActivity {
 
 }
 
-//푸쉬 알림
+//푸쉬 알림 왔을 때 백그라운드 일 때도 뱃지 나오게 할 것

@@ -158,7 +158,7 @@ public class ChickenActivity extends AppCompatActivity {
             public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
                 Intent intent = new Intent(getApplicationContext(), ChickenChatActivity.class);
                 intent.putExtra("room_name", ((TextView) view).getText().toString());
-                intent.putExtra("user_name", userID);
+                intent.putExtra("userID", userID);
                 intent.putExtra("what",what);
                 startActivity(intent);
             }

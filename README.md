@@ -1,5 +1,5 @@
 # 놀친
-
+<img src="https://user-images.githubusercontent.com/28971360/49238920-d8f9c080-f444-11e8-9e8d-98a36373155d.png" width="40%"></img>
 
 
 #####중앙대학교 아싸를 위한 채팅 어플!#####

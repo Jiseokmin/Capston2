@@ -6,14 +6,18 @@ import android.content.DialogInterface;
 import android.content.Intent;
 import android.net.ParseException;
 import android.os.SystemClock;
+import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.ActionBar;
 import android.support.v7.app.ActionBarDrawerToggle;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.support.v7.widget.SearchView;
 import android.support.v7.widget.Toolbar;
 import android.util.Log;
+import android.view.Gravity;
 import android.view.Menu;
+import android.view.MenuItem;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
@@ -41,7 +45,8 @@ import java.util.Set;
 
 public class ChickenActivity extends AppCompatActivity {
 
-    private static final String tag = "registerAlarm";
+   private SearchView searchView;
+    // private static final String tag = "registerAlarm";
     private ListView listView;
     private Button btn_create;
 
@@ -170,8 +175,25 @@ public class ChickenActivity extends AppCompatActivity {
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
         getMenuInflater().inflate(R.menu.menu, menu);
+
+        MenuItem searchItem = menu.findItem(R.id.search_drawer);
+        searchView = (SearchView) searchItem.getActionView();
+        searchView.setQueryHint("채팅방 검색");
+        searchView.setMaxWidth(Integer.MAX_VALUE);
+        searchView.setOnQueryTextListener(new SearchView.OnQueryTextListener() {
+
+            @Override
+            public boolean onQueryTextSubmit(String s) {
+                return false;
+            }
+
+            @Override
+            public boolean onQueryTextChange(String s) {
+                arrayAdapter.getFilter().filter(s);
+                return false;
+            }
+        });
         return true;
     }
-
 
 }

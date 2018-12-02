@@ -33,6 +33,7 @@ public class LoginActivity extends AppCompatActivity {
 
         SharedPreferences auto = getSharedPreferences("auto", Activity.MODE_PRIVATE);
 
+
         loginId = auto.getString("inputId", null);
         loginPwd = auto.getString("inputPwd", null);
 

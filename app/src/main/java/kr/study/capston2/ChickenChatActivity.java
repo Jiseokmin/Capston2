@@ -305,9 +305,9 @@ public class ChickenChatActivity extends AppCompatActivity {
                                 @Override
                                 public void onDataChange(DataSnapshot dataSnapshot) {
                                     Map<String, Object> taskMap = new HashMap<String, Object>();
-                                    String value = dataSnapshot.getValue(String.class);
+                                    String value = dataSnapshot.getValue(String.class);     ////아이디가 가지고있는 토큰 값
                                     sendFcm(value,str_user_name,what,str_room_name);
-                                    et_send.setText("");
+                                //    et_send.setText("");
                                 }
 
                                 @Override
@@ -316,6 +316,7 @@ public class ChickenChatActivity extends AppCompatActivity {
                                     Log.w(TAG, "Failed to read value.", databaseError.toException());
                                 }
                             });
+
                         }
 
                     }
@@ -382,16 +383,19 @@ public class ChickenChatActivity extends AppCompatActivity {
 
         NotificationModel notificationModel = new NotificationModel();
         notificationModel.to = pushToken;
-        notificationModel.notification.title = room_name;   //background 일 때
-        notificationModel.notification.text = et_send.getText().toString();
-        notificationModel.notification.what = what;
-        notificationModel.notification.room_name = room_name;
+
+     //  notificationModel.notification.title = room_name;   //background 일 때
+     //  notificationModel.notification.text = et_send.getText().toString();
+     //   notificationModel.notification.what = what;
+     //   notificationModel.notification.room_name = room_name;
 
 
         notificationModel.data.title = userName;        ///foreground 일때
         notificationModel.data.text = et_send.getText().toString();
         notificationModel.data.what = what;
         notificationModel.data.room_name = room_name;
+
+        et_send.setText("");
 
         RequestBody requestBody = RequestBody.create(MediaType.parse("application/json; charset=utf8"),gson.toJson(notificationModel));
         Request request  = new Request.Builder()

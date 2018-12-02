@@ -108,10 +108,12 @@ public class MainActivity extends AppCompatActivity {
 
         infor_list.add("로그아웃");
         infor_list.add("회원탈퇴");
+
         adapter=new ArrayAdapter<String>(this,R.layout.simpleitem,infor_list);
         userlist.setAdapter(adapter);
 
         final DatabaseReference reference_warnRef = FirebaseDatabase.getInstance().getReference().child("users").child(userID).child("point");
+
 
         userlist.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
@@ -461,12 +463,18 @@ public class MainActivity extends AppCompatActivity {
         DrawerLayout drawer = (DrawerLayout) findViewById(R.id.main_drawer_layout) ;
         //각각의 버튼을 클릭할때의 수행할것을 정의해 준다.
         switch (item.getItemId()){
-            case R.id.person_navigation_drawer:    //drawer 오른쪽으로 펼치기
-
+            case R.id.person_navigation_drawer: {  //drawer 오른쪽으로 펼치기
                 if (!drawer.isDrawerOpen(Gravity.RIGHT)) {
-                    drawer.openDrawer(Gravity.RIGHT) ;
-                }
+                    drawer.openDrawer(Gravity.RIGHT);
 
+                    break;
+                }
+            }
+            case R.id.ic_setting:    //설정 activity 로 이동
+                Intent intent = new Intent(MainActivity.this, SettingActivity.class);
+                intent.putExtra("userID", userID);
+                startActivity(intent);
+               break;
         }
 
         return true;

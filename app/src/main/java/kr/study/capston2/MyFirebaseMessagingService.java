@@ -9,6 +9,7 @@ import android.app.Service;
 import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
+import android.graphics.Color;
 import android.media.RingtoneManager;
 import android.net.Uri;
 import android.os.Build;
@@ -62,6 +63,8 @@ public class MyFirebaseMessagingService extends FirebaseMessagingService {
                 NotificationChannel mChannel = new NotificationChannel(
                         channelId, channelName, importance);
 
+                mChannel.enableLights(true);
+                mChannel.setLightColor(Color.GREEN);
                 notificationManager.createNotificationChannel(mChannel);
             }
 
@@ -80,6 +83,8 @@ public class MyFirebaseMessagingService extends FirebaseMessagingService {
                 NotificationChannel mChannel = new NotificationChannel(
                         channelId, channelName, importance);
 
+                mChannel.enableLights(true);
+                mChannel.setLightColor(Color.GREEN);
                 notificationManager.createNotificationChannel(mChannel);
             }
 
@@ -101,6 +106,8 @@ public class MyFirebaseMessagingService extends FirebaseMessagingService {
 
                 mChannel.setSound(null, null);
                 mChannel.enableVibration(false);
+                mChannel.enableLights(true);
+                mChannel.setLightColor(Color.GREEN);
                 notificationManager.createNotificationChannel(mChannel);
             }
 
@@ -119,6 +126,8 @@ public class MyFirebaseMessagingService extends FirebaseMessagingService {
                 NotificationChannel mChannel = new NotificationChannel(
                         channelId, channelName, importance);
 
+                mChannel.enableLights(true);
+                mChannel.setLightColor(Color.GREEN);
 
                 notificationManager.createNotificationChannel(mChannel);
             }
